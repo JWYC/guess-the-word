@@ -15,4 +15,24 @@ const response = document.querySelector(".message");
 //play again button - hidden -
 const againBtn = document.querySelector(".play-again");
 
-const world = "magnolia"
+const word = "magnolia";
+
+
+
+const placeHolder = function(){
+   //-/console.log(word.split(""));
+   const wordArray = word.split("");
+   const revealLetters = []
+   //-/console.log(revealLetters);
+   //-/console.log(wordArray.length);
+
+   wordArray.forEach (function(letter, index){
+      revealLetters.push("●");
+      //-/console.log(`${letter} ${index}`)
+   });
+  
+   const revealed = revealLetters.join(" ");
+   wordInProgress.innerText = revealed;
+
+}
+placeHolder(word);
