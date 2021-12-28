@@ -1,5 +1,5 @@
 //ul where player guessed letters appear
-const guessedLetters = document.querySelector(".guessed-letters");
+const lettersGuessedList = document.querySelector(".guessed-letters");
 //guess button
 const guessBtn = document.querySelector(".guess");
 // text input for guessing a letter
@@ -16,13 +16,13 @@ const response = document.querySelector(".message");
 const againBtn = document.querySelector(".play-again");
 
 const word = "magnolia";
+const guessedLettersAr = [];
 
-
-
+/// guess placeholder symbols ///
 const placeHolder = function(word){
 //test// console.log(word.split(""));
    //-//const wordArray = word.split("");
-   const revealLetters = []
+   const revealLettersAr = []
 //test// console.log(revealLetters);
 //test// console.log(wordArray.length);
    
@@ -35,42 +35,59 @@ const placeHolder = function(word){
 
    for (const letter of word){
       console.log(letter);
-      revealLetters.push("●");
+      revealLettersAr.push("●");
    }
    //-//const revealed = revealLetters.join(" ");
    //-//wordInProgress.innerText = revealed;
 /*/refactored/*/
-   wordInProgress.innerText = revealLetters.join(" ");
+   wordInProgress.innerText = revealLettersAr.join(" ");
 }
 placeHolder(word);
 
-
+/// button pushed event handler actions ///
 guessBtn.addEventListener("click", function(e){
    e.preventDefault();
+   
+   response.innerText = "";
+
    const guess = inputLetter.value;
-   //console.log(guess);
+   const goodGuess = checkInput(guess);
+      console.log(goodGuess);
+
+   if (goodGuess){
+      makeGuess(guess);
+   }
    
-   inputLetter.value = ""
-   
-   response.innerText = ""
-   
-   checkInput(guess);
-   console.log(guess);
+   inputLetter.value = "";
 });
 
-const checkInput = function(input){
+/// function checks inputs ///
+
+const checkInput = function(xinput){
    const acceptedLetter = /[a-zA-Z]/;
    //-//console.log(input.length);
- if (input == ""){
-    console.log("oops, please enter a letter to guess.");
- }else if (input.length > 1){
-    console.log("Please, enter only one letter at a time.");
- } else if (input != input.match(acceptedLetter)){
-    console.log("Sorry only letters are accepted");
+ if (xinput.length === 0){
+    response.innerText = `oops, please enter a letter to guess.`;
+ }else if (xinput.length > 1){
+   response.innerText = `Please, enter only one letter at a time.`;
+ } else if (!xinput.match(acceptedLetter)){
+   response.innerText = `Sorry only letters are accepted`;
  } else{
-    console.log(`Your guess: ${input}`);
-    return input; 
+    return xinput;
+    //none of the other return except for the last response. and that is what is feed into the if statement before array validation function is done
+
  }
- 
+
 };
 
+const makeGuess = function(xguess){
+   xguess = xguess.toUpperCase();
+   if (guessedLettersAr.includes(xguess)){
+     response.innerText = ` you have already guessed that letter.` 
+   }else{
+      guessedLettersAr.push(xguess);
+      console.log(guessedLettersAr);
+      lettersGuessedList.innerText = guessedLettersAr;
+   }
+   
+};
