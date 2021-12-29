@@ -80,6 +80,8 @@ const checkInput = function(xinput){
 
 };
 
+
+
 const makeGuess = function(xguess){
    xguess = xguess.toUpperCase();
    if (guessedLettersAr.includes(xguess)){
@@ -87,7 +89,22 @@ const makeGuess = function(xguess){
    }else{
       guessedLettersAr.push(xguess);
       console.log(guessedLettersAr);
-      lettersGuessedList.innerText = guessedLettersAr;
+      //-//lettersGuessedList.innerText = guessedLettersAr;
+      updateGuessed();
+      console.log(lettersGuessedList);
    }
    
+};
+
+const updateGuessed = function(){
+   lettersGuessedList.innerHTML = "";
+
+   for (let guessed of guessedLettersAr){ 
+   
+      let vlist = document.createElement("li");
+      vlist.innerText = guessed;   
+      lettersGuessedList.append(vlist);
+      //-//console.log(lettersGuessedList);
+
+   }
 };
