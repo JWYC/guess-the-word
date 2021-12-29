@@ -57,6 +57,8 @@ guessBtn.addEventListener("click", function(e){
    if (goodGuess){
       makeGuess(guess);
       correctReveal(guessedLettersAr);
+      won(word);
+      
    }
    
    inputLetter.value = "";
@@ -115,8 +117,8 @@ const updateGuessed = function(){
 const correctReveal = function(guessedLettersAr){
    const wordUpper = word.toUpperCase();
    const wordArray = wordUpper.split("");
-   //console.log(wordArray);
-   //console.log(guessedLettersAr);
+   //-//console.log(wordArray);
+   //-//console.log(guessedLettersAr);
 
    const completedWordAr = []
 
@@ -136,10 +138,29 @@ const correctReveal = function(guessedLettersAr){
      }
 
      console.log(completedWordAr.join(" "));
-     wordInProgress.innerText = completedWordAr.join(" ");
+     wordInProgress.innerText = completedWordAr.join("");
+     
+    
    });
 
-   
-
 }
+
+// check to see if player has won - completed whole word //
+
+const won = function(xword){
+   //-// console.log(`hello ${xprogressword.toUpperCase()}`)
+   const completedWord = wordInProgress.innerText;
+   //-// console.log(completedWord);
+
+   if (xword.toUpperCase() == completedWord){
+     console.log('done');
+      response.classList.add("win");
+console.log (response);
+      response.innerHTML = '<p class= "highlight"> You guessed correct the word! Congrats! </p>';
+      
+
+   }
+}
+
+
 
