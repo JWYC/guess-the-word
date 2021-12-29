@@ -56,6 +56,7 @@ guessBtn.addEventListener("click", function(e){
 
    if (goodGuess){
       makeGuess(guess);
+      correctReveal(guessedLettersAr);
    }
    
    inputLetter.value = "";
@@ -80,8 +81,7 @@ const checkInput = function(xinput){
 
 };
 
-
-
+// function shows guessed letters updates guessedLetterAr ///
 const makeGuess = function(xguess){
    xguess = xguess.toUpperCase();
    if (guessedLettersAr.includes(xguess)){
@@ -91,11 +91,12 @@ const makeGuess = function(xguess){
       console.log(guessedLettersAr);
       //-//lettersGuessedList.innerText = guessedLettersAr;
       updateGuessed();
-      console.log(lettersGuessedList);
+       console.log(lettersGuessedList);
    }
    
 };
 
+// function appends guessed letters to .letters-guessed ul as list items//
 const updateGuessed = function(){
    lettersGuessedList.innerHTML = "";
 
@@ -108,3 +109,37 @@ const updateGuessed = function(){
 
    }
 };
+
+//replaces circle symbols with correct letters guessed//
+
+const correctReveal = function(guessedLettersAr){
+   const wordUpper = word.toUpperCase();
+   const wordArray = wordUpper.split("");
+   //console.log(wordArray);
+   //console.log(guessedLettersAr);
+
+   const completedWordAr = []
+
+   wordArray.forEach(function(vletter, index){
+   //-//console.log(`${vletter} : ${index}`);
+     
+     if (guessedLettersAr.includes(vletter)){
+      //-//console.log(`in business ${index}`);
+         completedWordAr.push(vletter);
+         if(completedWordAr.includes(vletter)){
+           completedWordAr.splice(index, 1, vletter);
+         }
+      
+     } else{
+        //-//console.log(`nope ${index}`);
+        completedWordAr.push("●");
+     }
+
+     console.log(completedWordAr.join(" "));
+     wordInProgress.innerText = completedWordAr.join(" ");
+   });
+
+   
+
+}
+
