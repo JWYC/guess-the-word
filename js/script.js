@@ -18,6 +18,7 @@ const againBtn = document.querySelector(".play-again");
 const word = "magnolia";
 const guessedLettersAr = [];
 
+
 /// guess placeholder symbols ///
 const placeHolder = function(word){
 //test// console.log(word.split(""));
@@ -55,10 +56,7 @@ guessBtn.addEventListener("click", function(e){
       console.log(goodGuess);
 
    if (goodGuess){
-      makeGuess(guess);
-      correctReveal(guessedLettersAr);
-      won(word);
-      
+      makeGuess(guess);   
    }
    
    inputLetter.value = "";
@@ -92,8 +90,14 @@ const makeGuess = function(xguess){
       guessedLettersAr.push(xguess);
       console.log(guessedLettersAr);
       //-//lettersGuessedList.innerText = guessedLettersAr;
+      
+      guessesLeft(guessedLettersAr);
+     
       updateGuessed();
-       console.log(lettersGuessedList);
+      
+      correctReveal(guessedLettersAr); 
+       
+      console.log(lettersGuessedList);
    }
    
 };
@@ -102,9 +106,9 @@ const makeGuess = function(xguess){
 const updateGuessed = function(){
    lettersGuessedList.innerHTML = "";
 
-   for (let guessed of guessedLettersAr){ 
+   for (const guessed of guessedLettersAr){ 
    
-      let vlist = document.createElement("li");
+      const vlist = document.createElement("li");
       vlist.innerText = guessed;   
       lettersGuessedList.append(vlist);
       //-//console.log(lettersGuessedList);
@@ -139,11 +143,11 @@ const correctReveal = function(guessedLettersAr){
 
      console.log(completedWordAr.join(" "));
      wordInProgress.innerText = completedWordAr.join("");
-     
+     won(word);
     
    });
 
-}
+};
 
 // check to see if player has won - completed whole word //
 
@@ -157,10 +161,39 @@ const won = function(xword){
       response.classList.add("win");
 console.log (response);
       response.innerHTML = '<p class= "highlight"> You guessed correct the word! Congrats! </p>';
-      
+      return;
+
+   }
+};
+
+const guessesLeft = function(xguess){
+   let remainingGuesses = 8;
+   const upperWord = word.toUpperCase();
+   const upperWordSplit = upperWord.split("");
+  //-// console.log(`hi ${upperWordSplit}`);
+  //-// console.log(`wave ${xguess}`);
+
+for (letter of xguess){
+   console.log(letter);
+   if (upperWordSplit.includes(letter)){
+      console.log(remainingGuesses);
+      response.innerText = `Good Guess! the word has the letter ${letter}`;
+       
+   }
+   else{
+      remainingGuesses -=1;
+      console.log(remainingGuesses);
+      const newNumGuesses = remainingGuesses;
+      if (newNumGuesses === 0){
+         console.log("END!")
+         remainGuesses.innerText = `no more guesses, Play Again!`; 
+         return;
+      }else{
+         remainGuessesSpan.innerText = `${remainingGuesses} guesses`;
+      }
 
    }
 }
 
-
+};
 
