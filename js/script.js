@@ -15,9 +15,28 @@ const response = document.querySelector(".message");
 //play again button - hidden -
 const againBtn = document.querySelector(".play-again");
 
-const word = "magnolia";
+let word = "magnolia";
 const guessedLettersAr = [];
 
+const getWord = async function(){
+  const requestWords = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt"); 
+   const fetchedWordAr = await requestWords.text();
+   const wordArray = fetchedWordAr.split("\n");
+   console.log(wordArray);
+   newWord(wordArray);
+   placeHolder(word)
+};
+
+const newWord = function(xwordArray){
+   const randomWordsIndexs=Math.floor(Math.random()*xwordArray.length);
+   const randomWord = xwordArray[randomWordsIndexs];
+   console.log(randomWord);
+   const newWord = randomWord.trim();
+   word= newWord;
+   
+};
+
+getWord();
 
 /// guess placeholder symbols ///
 const placeHolder = function(word){
@@ -43,7 +62,7 @@ const placeHolder = function(word){
 /*/refactored/*/
    wordInProgress.innerText = revealLettersAr.join(" ");
 }
-placeHolder(word);
+//placeHolder(word);
 
 /// button pushed event handler actions ///
 guessBtn.addEventListener("click", function(e){
@@ -97,7 +116,7 @@ const makeGuess = function(xguess){
       
       correctReveal(guessedLettersAr); 
        
-      console.log(lettersGuessedList);
+      //-//console.log(lettersGuessedList);
    }
    
 };
@@ -132,9 +151,9 @@ const correctReveal = function(guessedLettersAr){
      if (guessedLettersAr.includes(vletter)){
       //-//console.log(`in business ${index}`);
          completedWordAr.push(vletter);
-         if(completedWordAr.includes(vletter)){
-           completedWordAr.splice(index, 1, vletter);
-         }
+         //is--not needed--// (completedWordAr.includes(vletter)){
+           //-- not needed --// completedWordAr.splice(index, 1, vletter);
+         //}
       
      } else{
         //-//console.log(`nope ${index}`);
@@ -178,7 +197,7 @@ for (letter of xguess){
    if (upperWordSplit.includes(letter)){
       console.log(remainingGuesses);
       response.innerText = `Good Guess! the word has the letter ${letter}`;
-       
+ 
    }
    else{
       remainingGuesses -=1;
