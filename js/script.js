@@ -217,4 +217,4 @@ againBtn.addEventListener("click", function(){
    getWord();
 });
 
-// Dec 2021 //
+// Dec 2021 - Jan 2022 //
