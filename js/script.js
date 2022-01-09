@@ -19,7 +19,7 @@ const againBtn = document.querySelector(".play-again");
 
 let word = "magnolia";
 const guessedLettersAr = [];
-//let remainingGuesses = 8;
+
 
 const getWord = async function(){
   const requestWords = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt"); 
@@ -43,29 +43,17 @@ getWord();
 
 /// guess placeholder symbols ///
 const placeHolder = function(word){
-//test// console.log(word.split(""));
-   //-//const wordArray = word.split("");
    const revealLettersAr = []
-//test// console.log(revealLetters);
-//test// console.log(wordArray.length);
-   
-//*-*// a forEach is overkill, a "for of" looks at array values only, no need for index in this function //
-   //-//wordArray.forEach (function(letter, index){
-     //-// revealLetters.push("●");
-      //test//console.log(`${letter} ${index}`)
-      //-// } 
-   //-// );
+   //test// console.log(revealLettersAr);
+   //test// console.log(wordArray.length);
 
    for (const letter of word){
       console.log(letter);
       revealLettersAr.push("●");
    }
-   //-//const revealed = revealLetters.join(" ");
-   //-//wordInProgress.innerText = revealed;
-/*/refactored/*/
+
    wordInProgress.innerText = revealLettersAr.join(" ");
 }
-//placeHolder(word);
 
 /// button pushed event handler actions ///
 guessBtn.addEventListener("click", function(e){
@@ -88,22 +76,20 @@ guessBtn.addEventListener("click", function(e){
 
 const checkInput = function(xinput){
    const acceptedLetter = /[a-zA-Z]/;
-   //-//console.log(input.length);
+   //test// console.log(xinput.length);
  if (xinput.length === 0){
     response.innerText = `oops, please enter a letter to guess.`;
- }else if (xinput.length > 1){
+ } else if (xinput.length > 1){
    response.innerText = `Please, enter only one letter at a time.`;
  } else if (!xinput.match(acceptedLetter)){
    response.innerText = `Sorry only letters are accepted`;
  } else{
     return xinput;
-    //none of the other return except for the last response. and that is what is feed into the if statement before array validation function is done
-
  }
 
 };
 
-// function shows guessed letters updates guessedLetterAr ///
+/// function shows guessed letters updates guessedLetterAr ///
 const makeGuess = function(xguess){
    xguess = xguess.toUpperCase();
    if (guessedLettersAr.includes(xguess)){
@@ -111,20 +97,18 @@ const makeGuess = function(xguess){
    }else{
       guessedLettersAr.push(xguess);
       console.log(guessedLettersAr);
-      //-//lettersGuessedList.innerText = guessedLettersAr;
       
       guessesLeft(guessedLettersAr);
      
       updateGuessed();
       
       correctReveal(guessedLettersAr); 
-       
-      //-//console.log(lettersGuessedList);
+
    }
    
 };
 
-// function appends guessed letters to .letters-guessed ul as list items//
+/// function appends guessed letters to .letters-guessed ul as list items ///
 const updateGuessed = function(){
    lettersGuessedList.innerHTML = "";
 
@@ -133,83 +117,63 @@ const updateGuessed = function(){
       const vlist = document.createElement("li");
       vlist.innerText = guessed;   
       lettersGuessedList.append(vlist);
-      //-//console.log(lettersGuessedList);
-
+      //test// console.log(lettersGuessedList);
    }
 };
 
-//replaces circle symbols with correct letters guessed//
+/// replaces circle symbols with correct letters guessed ///
 
-const correctReveal = function(guessedLettersAr){
+const correctReveal = function(xguessedLettersAr){
    const wordUpper = word.toUpperCase();
    const wordArray = wordUpper.split("");
-   //-//console.log(wordArray);
-   //-//console.log(guessedLettersAr);
 
    const completedWordAr = []
 
-   wordArray.forEach(function(vletter, index){
-   //-//console.log(`${vletter} : ${index}`);
-     
-     if (guessedLettersAr.includes(vletter)){
-      //-//console.log(`in business ${index}`);
-         completedWordAr.push(vletter);
-         //is--not needed--// (completedWordAr.includes(vletter)){
-           //-- not needed --// completedWordAr.splice(index, 1, vletter);
-         //}
-      
+  // loop word arrray each time through push a letter or dot symbol //
+   for (const vletter of wordArray){  
+     if (xguessedLettersAr.includes(vletter)){
+         completedWordAr.push(vletter);  
      } else{
-        //-//console.log(`nope ${index}`);
         completedWordAr.push("●");
      }
 
      console.log(completedWordAr.join(" "));
      wordInProgress.innerText = completedWordAr.join("");
+     
      won(word);
     
-   });
+   };
 
 };
 
-
-
-// check to see if player has won - completed whole word //
+/// check to see if player has won - completed whole word ///
 
 const won = function(xword){
-   //-// console.log(`hello ${xprogressword.toUpperCase()}`)
    const completedWord = wordInProgress.innerText;
-   //-// console.log(completedWord);
 
    if (xword.toUpperCase() == completedWord){
-     console.log('done');
       response.classList.add("win");
-console.log (response);
       response.innerHTML = '<p class= "highlight"> You guessed correct the word! Congrats! </p>';
       startOver();
-      
-
    }
 };
 
+/// counts how many guesses are left ///
 const guessesLeft = function(xguess){
    let remainingGuesses = 8;
    const upperWord = word.toUpperCase();
    const upperWordSplit = upperWord.split("");
-  //-// console.log(`hi ${upperWordSplit}`);
-  //-// console.log(`wave ${xguess}`);
-
 
 //// *** double check this if statement ***///  
 for (letter of xguess){
    console.log(letter);
    if (upperWordSplit.includes(letter)){
-      console.log(remainingGuesses);
+      //test// console.log(remainingGuesses);
       response.innerText = `Good Guess! the word has the letter ${letter}`;
    }
    else{
       remainingGuesses -=1;
-      console.log(remainingGuesses);
-      //const newNumGuesses = remainingGuesses;
+      //test// console.log(remainingGuesses);
       if (remainingGuesses === 0){
          console.log("END!")
          remainGuessesSpan.innerText = `no more guesses, Play Again!`; 
@@ -217,39 +181,38 @@ for (letter of xguess){
          
       }else{
          remainGuessesSpan.innerText = `${remainingGuesses} guesses`;
+         response.innerText = `Guess Again`;
       }
-
    }
 }
 
 };
-
+/// reveals paly again button- hides elements not needed //
 const startOver = function(){
    guessBtn.classList.add("hide");
    remainGuesses.classList.add("hide");
    lettersGuessedList.classList.add("hide");
-   //remainGuesses.innerText = "";
+   
    againBtn.classList.remove("hide");
 };
 
+
+/// click event, removes old information, and resets for new game ///
 againBtn.addEventListener("click", function(){
-   console.log("hello");
+   // remove win message //
    response.classList.remove("win");
    response.innerHTML = "";
-   
-   //wordInProgress.innerText = "";
-   
+   // reset numberr of guesses //
    remainingGuesses = 8; 
    remainGuessesSpan.innerText = `${remainingGuesses} guesses`;
    remainGuesses.classList.remove("hide");
-
+   // clear guessed letter array and clear display of guessed letters //
    guessedLettersAr.splice(0, guessedLettersAr.length);
-   console.log(guessedLettersAr);
    lettersGuessedList.innerHTML = "";
    lettersGuessedList.classList.remove("hide");
-
+   // reset states of buttons //
    guessBtn.classList.remove("hide");
    againBtn.classList.add("hide");
-
+   // get new word //
    getWord();
 });
