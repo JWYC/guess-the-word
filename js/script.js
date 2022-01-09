@@ -216,3 +216,5 @@ againBtn.addEventListener("click", function(){
    // get new word //
    getWord();
 });
+
+// Dec 2021 //
