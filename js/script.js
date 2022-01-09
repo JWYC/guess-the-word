@@ -1,3 +1,5 @@
+// selects the body element
+const body = document.querySelector("body");
 //ul where player guessed letters appear
 const lettersGuessedList = document.querySelector(".guessed-letters");
 //guess button
@@ -17,6 +19,7 @@ const againBtn = document.querySelector(".play-again");
 
 let word = "magnolia";
 const guessedLettersAr = [];
+//let remainingGuesses = 8;
 
 const getWord = async function(){
   const requestWords = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt"); 
@@ -168,6 +171,8 @@ const correctReveal = function(guessedLettersAr){
 
 };
 
+
+
 // check to see if player has won - completed whole word //
 
 const won = function(xword){
@@ -180,7 +185,8 @@ const won = function(xword){
       response.classList.add("win");
 console.log (response);
       response.innerHTML = '<p class= "highlight"> You guessed correct the word! Congrats! </p>';
-      return;
+      startOver();
+      
 
    }
 };
@@ -192,21 +198,23 @@ const guessesLeft = function(xguess){
   //-// console.log(`hi ${upperWordSplit}`);
   //-// console.log(`wave ${xguess}`);
 
+
+//// *** double check this if statement ***///  
 for (letter of xguess){
    console.log(letter);
    if (upperWordSplit.includes(letter)){
       console.log(remainingGuesses);
       response.innerText = `Good Guess! the word has the letter ${letter}`;
- 
    }
    else{
       remainingGuesses -=1;
       console.log(remainingGuesses);
-      const newNumGuesses = remainingGuesses;
-      if (newNumGuesses === 0){
+      //const newNumGuesses = remainingGuesses;
+      if (remainingGuesses === 0){
          console.log("END!")
-         remainGuesses.innerText = `no more guesses, Play Again!`; 
-         return;
+         remainGuessesSpan.innerText = `no more guesses, Play Again!`; 
+         startOver();
+         
       }else{
          remainGuessesSpan.innerText = `${remainingGuesses} guesses`;
       }
@@ -216,3 +224,32 @@ for (letter of xguess){
 
 };
 
+const startOver = function(){
+   guessBtn.classList.add("hide");
+   remainGuesses.classList.add("hide");
+   lettersGuessedList.classList.add("hide");
+   //remainGuesses.innerText = "";
+   againBtn.classList.remove("hide");
+};
+
+againBtn.addEventListener("click", function(){
+   console.log("hello");
+   response.classList.remove("win");
+   response.innerHTML = "";
+   
+   //wordInProgress.innerText = "";
+   
+   remainingGuesses = 8; 
+   remainGuessesSpan.innerText = `${remainingGuesses} guesses`;
+   remainGuesses.classList.remove("hide");
+
+   guessedLettersAr.splice(0, guessedLettersAr.length);
+   console.log(guessedLettersAr);
+   lettersGuessedList.innerHTML = "";
+   lettersGuessedList.classList.remove("hide");
+
+   guessBtn.classList.remove("hide");
+   againBtn.classList.add("hide");
+
+   getWord();
+});
